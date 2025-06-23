@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
+import 'package:runfastxm_flutter/presentation/views/settings/settings_page.dart';
 import 'package:runfastxm_flutter/services/notification_service.dart';
 import 'domain/models/reminder.dart';
 import 'presentation/view_models/reminder_view_model.dart';
@@ -54,7 +55,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     ReminderPage(),
     Placeholder(child: Center(child: Text('目标'))),
     Placeholder(child: Center(child: Text('日记'))),
-    Placeholder(child: Center(child: Text('我的'))),
+    SettingsPage(),
   ];
 
   @override
