@@ -48,6 +48,7 @@ class ReminderPage extends StatelessWidget {
       ),
       body: const _ReminderBody(),
       floatingActionButton: FloatingActionButton(
+        heroTag: null, // 禁用 Hero 动画
         onPressed: () => _showAddReminderSheet(context),
         child: const Icon(Icons.add),
       ),
