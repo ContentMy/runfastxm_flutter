@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:runfastxm_flutter/presentation/views/settings/settings_about_page.dart';
+import 'package:runfastxm_flutter/presentation/views/settings/settings_guide_page.dart';
+import 'package:runfastxm_flutter/presentation/views/settings/settings_privacy_page.dart';
+import 'package:runfastxm_flutter/presentation/views/settings/settings_reminder_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -8,20 +11,32 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<_SettingItem> items = [
       _SettingItem(Icons.info, '关于小马快跑', onTap: () {
-        // TODO: 跳转关于页面
+        // 跳转关于页面
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const SettingsAboutPage()),
         );
       }),
       _SettingItem(Icons.privacy_tip, '隐私政策与用户协议', onTap: () {
-        // TODO: 跳转隐私页面
+        // 跳转隐私页面
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const SettingsPrivacyPage()),
+        );
       }),
       _SettingItem(Icons.help_outline, '使用说明', onTap: () {
-        // TODO: 跳转使用说明
+        // 跳转使用说明
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const SettingsGuidePage()),
+        );
       }),
       _SettingItem(Icons.notifications_active, '提醒设置', onTap: () {
-        // TODO: 跳转提醒设置
+        // 跳转提醒设置
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const SettingsReminderPage()),
+        );
       }),
     ];
 
