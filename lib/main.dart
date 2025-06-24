@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
+import 'package:runfastxm_flutter/presentation/view_models/goal_view_model.dart';
+import 'package:runfastxm_flutter/presentation/views/goal/goal_page.dart';
 import 'package:runfastxm_flutter/presentation/views/settings/settings_page.dart';
 import 'package:runfastxm_flutter/services/notification_service.dart';
+import 'domain/models/goal.dart';
 import 'domain/models/reminder.dart';
 import 'presentation/view_models/reminder_view_model.dart';
 import 'presentation/views/reminder/reminder_page.dart';
@@ -13,6 +16,8 @@ void main() async{
   await Hive.initFlutter();
   Hive.registerAdapter(ReminderAdapter());
   await Hive.openBox<Reminder>('reminders');
+  Hive.registerAdapter(GoalAdapter());
+  await Hive.openBox<Goal>('goals');
 
   await NotificationService.init(); // 初始化通知插件
 
@@ -20,6 +25,7 @@ void main() async{
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ReminderViewModel()),
+        ChangeNotifierProvider(create: (_) => GoalViewModel()),
       ],
       child: const RunFastApp(),
     ),
@@ -53,7 +59,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   final List<Widget> _pages = const [
     ReminderPage(),
-    Placeholder(child: Center(child: Text('目标'))),
+    GoalPage(),
     Placeholder(child: Center(child: Text('日记'))),
     SettingsPage(),
   ];

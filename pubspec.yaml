@@ -44,6 +44,7 @@ dependencies:
 #  flutter_local_notifications: ^12.0.4 #通知功能的集成（通知需要在原生配置权限）
 #  timezone: ^0.9.0 #时区转换的包
   permission_handler: ^11.3.1 #Android 权限动态申请
+  intl: ^0.18.1 #格式化日期
 
 dev_dependencies:
   flutter_test:
