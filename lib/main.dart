@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:runfastxm_flutter/presentation/view_models/goal_view_model.dart';
-import 'package:runfastxm_flutter/presentation/views/goal/goal_page.dart';
-import 'package:runfastxm_flutter/presentation/views/settings/settings_page.dart';
 import 'package:runfastxm_flutter/services/notification_service.dart';
 import 'domain/models/goal.dart';
 import 'domain/models/reminder.dart';
 import 'presentation/view_models/reminder_view_model.dart';
+import 'presentation/view_models/goal_view_model.dart';
 import 'presentation/views/reminder/reminder_page.dart';
+import 'presentation/views/goal/goal_page.dart';
+import 'presentation/views/diary/diary_page.dart';
+import 'presentation/views/settings/settings_page.dart';
 
 void main() async{
   //以下是hive初始化的代码部分
@@ -57,10 +58,10 @@ class MainScaffold extends StatefulWidget {
 class _MainScaffoldState extends State<MainScaffold> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
+  final List<Widget> _pages = [
     ReminderPage(),
     GoalPage(),
-    Placeholder(child: Center(child: Text('日记'))),
+    DiaryPage(),
     SettingsPage(),
   ];
 
