@@ -1,15 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import '../../../domain/models/reminder.dart';
-import '../../../data/repositories_impl/reminder_repository_impl.dart';
+import '../../data/repositories_impl/reminder_repository_impl.dart';
 import '../../../services/notification_service.dart';
 
 import 'dart:async';
 
 class ReminderViewModel extends ChangeNotifier {
-  final ReminderRepository _repository = ReminderRepository();
+  final ReminderRepository _repository;
   final List<Reminder> _reminders = [];
   Timer? _timer;
+
+  ReminderViewModel(this._repository) {
+    loadReminders();
+    _startAutoExpireCheck();
+  }
 
   List<Reminder> get reminders =>
       List.unmodifiable(_reminders.where((r) => !r.remindCompleteStatus));
@@ -17,18 +22,12 @@ class ReminderViewModel extends ChangeNotifier {
   List<Reminder> get completedReminders =>
       List.unmodifiable(_reminders.where((r) => r.remindCompleteStatus));
 
-  ReminderViewModel() {
-    loadReminders();
-    _startAutoExpireCheck();  // 加入自动检查
-  }
-
   void loadReminders() {
     _reminders.clear();
     _reminders.addAll(_repository.getAll());
     notifyListeners();
   }
 
-  // 定时检查提醒是否完成
   void _startAutoExpireCheck() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) async {
@@ -38,7 +37,6 @@ class ReminderViewModel extends ChangeNotifier {
       for (int i = 0; i < _reminders.length; i++) {
         final r = _reminders[i];
 
-        // 如果还未完成并且已经到时间
         if (!r.remindCompleteStatus && r.endDateTime.isBefore(now)) {
           final updatedReminder = Reminder(
             id: r.id,
@@ -48,19 +46,18 @@ class ReminderViewModel extends ChangeNotifier {
             remindTime: r.remindTime,
             remindStartTime: r.remindStartTime,
             remindEndTime: r.remindEndTime,
-            remindCompleteStatus: true, // ✅ 标记为已完成
+            remindCompleteStatus: true,
           );
 
-          await _repository.update(updatedReminder); // 你需要实现这个方法
+          await _repository.update(updatedReminder);
           _reminders[i] = updatedReminder;
           updated = true;
         }
       }
 
-      if (updated) notifyListeners(); // 通知 UI 刷新
+      if (updated) notifyListeners();
     });
   }
-
 
   Future<void> addReminder(String content, Duration duration) async {
     final id = const Uuid().v4();
@@ -69,13 +66,13 @@ class ReminderViewModel extends ChangeNotifier {
 
     final reminder = Reminder(
       id: id,
-      remindImg: "ic_reminder",            // 默认提醒图标
-      remindTitle: content,                 // 标题就是 content
-      remindContent: content,               // 详情内容暂时同标题
-      remindTime: durationMillis,           // 间隔时间，毫秒
-      remindStartTime: nowMillis,           // 创建时间戳，毫秒
-      remindEndTime: nowMillis + durationMillis,  // 结束时间戳
-      remindCompleteStatus: false,          // 初始状态未完成
+      remindImg: "ic_reminder",
+      remindTitle: content,
+      remindContent: content,
+      remindTime: durationMillis,
+      remindStartTime: nowMillis,
+      remindEndTime: nowMillis + durationMillis,
+      remindCompleteStatus: false,
     );
 
     await _repository.add(reminder);
@@ -116,7 +113,6 @@ class ReminderViewModel extends ChangeNotifier {
   }
 
   void addReminderFromCompleted(Reminder newReminder) {
-
+    // 可选实现
   }
 }
-

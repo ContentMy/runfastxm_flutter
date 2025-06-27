@@ -1,31 +1,26 @@
 import 'package:hive/hive.dart';
-import '../../domain/models/diary.dart';
+import 'package:runfastxm_flutter/domain/models/diary.dart';
 
 class DiaryRepository {
-  static const String _boxName = 'diaryBox';
+  final Box<Diary> diaryBox = Hive.box<Diary>('diaries');
 
-  Future<void> addDiary(Diary diary) async {
-    final box = await Hive.openBox<Diary>(_boxName);
-    await box.put(diary.id, diary);
+  List<Diary> getAllDiaries() {
+    return diaryBox.values.toList();
+  }
+
+  Future<void> addDiary(Diary diary) async {//异步返回Future，不进行try/catch的话可以不声明async/await，更简洁
+    await diaryBox.put(diary.id, diary);
   }
 
   Future<void> updateDiary(Diary diary) async {
-    final box = await Hive.openBox<Diary>(_boxName);
-    await box.put(diary.id, diary);
+    await diaryBox.put(diary.id, diary);
   }
 
   Future<void> deleteDiary(String id) async {
-    final box = await Hive.openBox<Diary>(_boxName);
-    await box.delete(id);
+    await diaryBox.delete(id);
   }
 
-  Future<List<Diary>> getAllDiaries() async {
-    final box = await Hive.openBox<Diary>(_boxName);
-    return box.values.toList();
-  }
-
-  Future<Diary?> getDiaryById(String id) async {
-    final box = await Hive.openBox<Diary>(_boxName);
-    return box.get(id);
+  Diary? getDiaryById(String id) {
+    return diaryBox.get(id);
   }
 }

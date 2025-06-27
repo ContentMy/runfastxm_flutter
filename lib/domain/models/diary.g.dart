@@ -8,7 +8,7 @@ part of 'diary.dart';
 
 class DiaryAdapter extends TypeAdapter<Diary> {
   @override
-  final int typeId = 3;
+  final int typeId = 2;
 
   @override
   Diary read(BinaryReader reader) {
@@ -17,7 +17,7 @@ class DiaryAdapter extends TypeAdapter<Diary> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Diary(
-      id: fields[0] as String,
+      id: fields[0] as String?,
       icon: fields[1] as String?,
       title: fields[2] as String,
       content: fields[3] as String,

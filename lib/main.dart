@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
+import 'package:runfastxm_flutter/data/repositories_impl/goal_repository_impl.dart';
+import 'package:runfastxm_flutter/data/repositories_impl/reminder_repository_impl.dart';
+import 'package:runfastxm_flutter/domain/models/diary.dart';
+import 'package:runfastxm_flutter/presentation/view_models/diary_view_model.dart';
 import 'package:runfastxm_flutter/services/notification_service.dart';
+import 'data/repositories_impl/diary_repository_impl.dart';
 import 'domain/models/goal.dart';
 import 'domain/models/reminder.dart';
 import 'presentation/view_models/reminder_view_model.dart';
@@ -19,14 +24,19 @@ void main() async{
   await Hive.openBox<Reminder>('reminders');
   Hive.registerAdapter(GoalAdapter());
   await Hive.openBox<Goal>('goals');
+  Hive.registerAdapter(DiaryAdapter());
+  await Hive.openBox<Diary>('diary');
 
   await NotificationService.init(); // 初始化通知插件
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ReminderViewModel()),
-        ChangeNotifierProvider(create: (_) => GoalViewModel()),
+        ChangeNotifierProvider(create: (_) => ReminderViewModel(ReminderRepository())),
+        ChangeNotifierProvider(create: (_) => GoalViewModel(GoalRepository())),
+        ChangeNotifierProvider(
+          create: (_) => DiaryViewModel(DiaryRepository()),
+        ),
       ],
       child: const RunFastApp(),
     ),

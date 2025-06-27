@@ -3,36 +3,34 @@ import 'package:runfastxm_flutter/domain/models/goal.dart';
 import '../../data/repositories_impl/goal_repository_impl.dart';
 
 class GoalViewModel extends ChangeNotifier {
-  final GoalRepository repository = GoalRepository();
+  final GoalRepository _repository;
 
-  GoalViewModel() {
-    loadGoals();
-  }
+  GoalViewModel(this._repository);
 
   List<Goal> _goals = [];
   List<Goal> get goals => _goals;
 
   void loadGoals() {
-    _goals = repository.getAllGoals();
+    _goals = _repository.getAllGoals();
     notifyListeners();
   }
 
   void addGoal(Goal goal) async {
-    await repository.addGoal(goal);
+    await _repository.addGoal(goal);
     loadGoals();
   }
 
   void updateGoal(Goal goal) async {
-    await repository.updateGoal(goal);
+    await _repository.updateGoal(goal);
     loadGoals();
   }
 
   void deleteGoal(String id) async {
-    await repository.deleteGoal(id);
+    await _repository.deleteGoal(id);
     loadGoals();
   }
 
   Goal? getGoalById(String id) {
-    return repository.getGoalById(id);
+    return _repository.getGoalById(id);
   }
 }

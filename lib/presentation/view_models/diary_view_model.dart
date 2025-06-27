@@ -1,47 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-
 import '../../data/repositories_impl/diary_repository_impl.dart';
 import '../../domain/models/diary.dart';
 
+
 class DiaryViewModel extends ChangeNotifier {
-  final DiaryRepository _repository = DiaryRepository();
+  final DiaryRepository _repository;
 
   List<Diary> _diaries = [];
 
   List<Diary> get diaries => _diaries;
 
-  Future<void> loadDiaries() async {
-    _diaries = await _repository.getAllDiaries();
+  DiaryViewModel(this._repository);
+
+  /// 加载所有日记
+  void loadDiaries() {
+    _diaries = _repository.getAllDiaries();
     notifyListeners();
   }
 
-  Future<void> addDiary({
-    String? icon,
-    required String title,
-    required String content,
-  }) async {
-    final now = DateTime.now().millisecondsSinceEpoch;
-    final diary = Diary(
-      id: const Uuid().v4(),
-      icon: icon,
-      title: title,
-      content: content,
-      createTime: now,
-      updateTime: now,
-    );
+  /// 新增日记
+  Future<void> addDiary(Diary diary) async {
     await _repository.addDiary(diary);
-    await loadDiaries();
+    loadDiaries();
   }
 
+  /// 更新日记
   Future<void> updateDiary(Diary diary) async {
-    diary.updateTime = DateTime.now().millisecondsSinceEpoch;
     await _repository.updateDiary(diary);
-    await loadDiaries();
+    loadDiaries();
   }
 
+  /// 删除日记
   Future<void> deleteDiary(String id) async {
     await _repository.deleteDiary(id);
-    await loadDiaries();
+    loadDiaries();
+  }
+
+  Diary? getDiaryById(String id) {
+    return _repository.getDiaryById(id);
   }
 }
+

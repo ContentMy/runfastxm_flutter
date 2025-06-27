@@ -1,33 +1,56 @@
+// domain/models/diary.dart
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 part 'diary.g.dart';
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 2)
 class Diary extends HiveObject {
   @HiveField(0)
-  String id;
+  final String id;
 
   @HiveField(1)
-  String? icon; // 图片名或资源路径，可为空
+  final String? icon;
 
   @HiveField(2)
-  String title;
+  final String title;
 
   @HiveField(3)
-  String content;
+  final String content;
 
   @HiveField(4)
-  int createTime; // 时间戳，单位毫秒
+  final int createTime;
 
   @HiveField(5)
-  int updateTime; // 时间戳，单位毫秒
+  final int updateTime;
 
   Diary({
-    required this.id,
+    String? id,
     this.icon,
     required this.title,
     required this.content,
     required this.createTime,
     required this.updateTime,
-  });
+  }) : id = id ?? const Uuid().v4();
+
+  Diary copyWith({
+    String? id,
+    String? icon,
+    String? title,
+    String? content,
+    int? createTime,
+    int? updateTime,
+  }) {
+    return Diary(
+      id: id ?? this.id,
+      icon: icon ?? this.icon,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      createTime: createTime ?? this.createTime,
+      updateTime: updateTime ?? this.updateTime,
+    );
+  }
+
+  DateTime get createDate => DateTime.fromMillisecondsSinceEpoch(createTime);
+  DateTime get updateDate => DateTime.fromMillisecondsSinceEpoch(updateTime);
 }
