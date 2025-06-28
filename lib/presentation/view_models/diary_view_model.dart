@@ -10,7 +10,9 @@ class DiaryViewModel extends ChangeNotifier {
 
   List<Diary> get diaries => _diaries;
 
-  DiaryViewModel(this._repository);
+  DiaryViewModel(this._repository){
+    loadDiaries();
+  }
 
   /// 加载所有日记
   void loadDiaries() {

@@ -25,7 +25,7 @@ void main() async{
   Hive.registerAdapter(GoalAdapter());
   await Hive.openBox<Goal>('goals');
   Hive.registerAdapter(DiaryAdapter());
-  await Hive.openBox<Diary>('diary');
+  await Hive.openBox<Diary>('diaries');
 
   await NotificationService.init(); // 初始化通知插件
 
@@ -35,7 +35,8 @@ void main() async{
         ChangeNotifierProvider(create: (_) => ReminderViewModel(ReminderRepository())),
         ChangeNotifierProvider(create: (_) => GoalViewModel(GoalRepository())),
         ChangeNotifierProvider(
-          create: (_) => DiaryViewModel(DiaryRepository()),
+          create: (_) => DiaryViewModel(DiaryRepository()),///这种写法直接在viewmodel中的构造方法里处理调用
+          // create: (_) => DiaryViewModel(DiaryRepository())..loadDiaries(),///这种写法适合有单元测试避免自动加载或者手动可控延迟加载的场景
         ),
       ],
       child: const RunFastApp(),

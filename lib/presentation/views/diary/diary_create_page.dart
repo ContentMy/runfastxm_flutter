@@ -1,28 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../domain/models/diary.dart';
+import '../../view_models/diary_view_model.dart';
 
-class DiaryCreatePage extends StatelessWidget {
+class DiaryCreatePage extends StatefulWidget {
   const DiaryCreatePage({super.key});
+
+  @override
+  State<DiaryCreatePage> createState() => _DiaryCreatePageState();
+}
+
+class _DiaryCreatePageState extends State<DiaryCreatePage> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
+
+  void _saveDiary() async {
+    final title = _titleController.text.trim();
+    final content = _contentController.text.trim();
+
+    if (title.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('标题不能为空')),
+      );
+      return;
+    }
+
+    final now = DateTime.now();
+
+    final newDiary = Diary(
+      title: title,
+      content: content,
+      createTime: now.millisecondsSinceEpoch,
+      updateTime: now.millisecondsSinceEpoch,
+    );
+
+    await context.read<DiaryViewModel>().addDiary(newDiary);
+
+    Navigator.pop(context); // 回到列表页
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('新建记录'),
-        centerTitle: true, // ✅ 解决标题不居中的问题
+        centerTitle: true,
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: ElevatedButton(
-              onPressed: () {
-                // 保存逻辑
-              },
+              onPressed: _saveDiary,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('保存',style: TextStyle(color: Colors.white)),
+              child: const Text('保存', style: TextStyle(color: Colors.white)),
             ),
           ),
         ],
@@ -34,9 +75,10 @@ class DiaryCreatePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
+                controller: _titleController,
                 style: const TextStyle(fontSize: 16),
                 decoration: InputDecoration(
-                  hintText: '记录一下今天的心情吧', // ✅ 提示文字
+                  hintText: '记录一下今天的心情吧',
                   filled: true,
                   fillColor: Colors.grey.shade200,
                   border: OutlineInputBorder(
@@ -54,9 +96,10 @@ class DiaryCreatePage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TextField(
+                controller: _contentController,
                 maxLines: 6,
                 decoration: InputDecoration(
-                  hintText: '我还想说...', // ✅ 提示文字
+                  hintText: '我还想说...',
                   filled: true,
                   fillColor: Colors.grey.shade200,
                   border: OutlineInputBorder(
@@ -67,23 +110,6 @@ class DiaryCreatePage extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
               ),
-              const SizedBox(height: 24),
-              // const Text(
-              //   '选择想要添加的图片吧：',
-              //   style: TextStyle(fontSize: 14, color: Colors.black54),
-              // ),
-              // const SizedBox(height: 12),
-              // Container(
-              //   width: 100,
-              //   height: 100,
-              //   decoration: BoxDecoration(
-              //     border: Border.all(color: Colors.green, style: BorderStyle.solid, width: 2),
-              //     borderRadius: BorderRadius.circular(8),
-              //   ),
-              //   child: const Center(
-              //     child: Icon(Icons.add, color: Colors.green, size: 32),
-              //   ),
-              // ),
             ],
           ),
         ),
