@@ -71,9 +71,18 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-  - assets/images/
   - assets/icons/
-
+  - assets/icons/common/ #需要配置完整路径，不然会提示找不到资源，gpt说会递归子路径，但是是错误的
+  - assets/icons/reminder/
+  - assets/icons/goal/
+  - assets/icons/diary/
+  - assets/icons/settings/
+  - assets/images/
+  - assets/images/common/
+  - assets/images/reminder/
+  - assets/images/goal/
+  - assets/images/diary/
+  - assets/images/settings/
   # To add assets to your application, add an assets section, like this:
 #   assets:
 #     - images/a_dot_burr.jpeg
