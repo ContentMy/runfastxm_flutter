@@ -5,6 +5,7 @@ import 'package:runfastxm_flutter/data/repositories_impl/goal_repository_impl.da
 import 'package:runfastxm_flutter/data/repositories_impl/reminder_repository_impl.dart';
 import 'package:runfastxm_flutter/domain/models/diary.dart';
 import 'package:runfastxm_flutter/presentation/view_models/diary_view_model.dart';
+import 'package:runfastxm_flutter/resources/assets.dart';
 import 'package:runfastxm_flutter/services/notification_service.dart';
 import 'data/repositories_impl/diary_repository_impl.dart';
 import 'domain/models/goal.dart';
@@ -16,7 +17,7 @@ import 'presentation/views/goal/goal_page.dart';
 import 'presentation/views/diary/diary_page.dart';
 import 'presentation/views/settings/settings_page.dart';
 
-void main() async{
+void main() async {
   //以下是hive初始化的代码部分
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -32,10 +33,13 @@ void main() async{
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ReminderViewModel(ReminderRepository())),
+        ChangeNotifierProvider(
+            create: (_) => ReminderViewModel(ReminderRepository())),
         ChangeNotifierProvider(create: (_) => GoalViewModel(GoalRepository())),
         ChangeNotifierProvider(
-          create: (_) => DiaryViewModel(DiaryRepository()),///这种写法直接在viewmodel中的构造方法里处理调用
+          create: (_) => DiaryViewModel(DiaryRepository()),
+
+          ///这种写法直接在viewmodel中的构造方法里处理调用
           // create: (_) => DiaryViewModel(DiaryRepository())..loadDiaries(),///这种写法适合有单元测试避免自动加载或者手动可控延迟加载的场景
         ),
       ],
@@ -52,7 +56,7 @@ class RunFastApp extends StatelessWidget {
     return MaterialApp(
       title: 'RunFast',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const MainScaffold(),
     );
@@ -86,13 +90,25 @@ class _MainScaffoldState extends State<MainScaffold> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.green,
         onTap: (index) => setState(() => _currentIndex = index),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: '提醒'),
-          BottomNavigationBarItem(icon: Icon(Icons.flag), label: '目标'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: '日记'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
+        items: [
+          const BottomNavigationBarItem(icon: ImageIcon(
+            AssetImage(Assets.commonNavIconRemind),
+            size: 24,
+          ), label: '提醒',),
+          const BottomNavigationBarItem(icon: ImageIcon(
+            AssetImage(Assets.commonNavIconGoal),
+            size: 24,
+          ), label: '目标'),
+          const BottomNavigationBarItem(icon: ImageIcon(
+            AssetImage(Assets.commonNavIconMemorandum),
+            size: 24,
+          ), label: '日记'),
+          const BottomNavigationBarItem(icon: ImageIcon(
+            AssetImage(Assets.commonNavIconUser),
+            size: 24,
+          ), label: '我的'),
         ],
       ),
     );

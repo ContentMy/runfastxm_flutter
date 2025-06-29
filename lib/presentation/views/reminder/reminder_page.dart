@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../resources/assets.dart';
+import '../../../resources/strings.dart';
 import 'reminder_completed_page.dart';
 import '../../../services/permission_service.dart';
 import '../../view_models/reminder_view_model.dart';
@@ -32,15 +34,17 @@ class ReminderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('提醒列表'),
+        title: const Text(Strings.reminderTitle),
         actions: [
           IconButton(
-            icon: const Icon(Icons.checklist_rtl),
+            icon: Image.asset(Assets.reminderImgMenu, width: 24, height: 24),
             onPressed: () {
               // TODO: 跳转到已完成页面
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const ReminderCompletedPage()),
+                MaterialPageRoute(
+                  builder: (_) => const ReminderCompletedPage(),
+                ),
               );
             },
           ),
@@ -48,9 +52,11 @@ class ReminderPage extends StatelessWidget {
       ),
       body: const _ReminderBody(),
       floatingActionButton: FloatingActionButton(
-        heroTag: null, // 禁用 Hero 动画
+        heroTag: null,
+        backgroundColor: Colors.green,
+        shape: const CircleBorder(),
         onPressed: () => _showAddReminderSheet(context),
-        child: const Icon(Icons.add),
+        child: Image.asset(Assets.commonImgAdd, width: 24, height: 24),
       ),
     );
   }
@@ -66,15 +72,18 @@ class _ReminderBody extends StatelessWidget {
     // ✅ 添加 return，修复无返回的 bug
     return reminders.isEmpty
         ? const Center(
-      child: Text('再也不怕忘掉啦~\n点击 "+" 添加提醒吧！',
-          textAlign: TextAlign.center),
-    )
+            child: Text(
+              Strings.reminderEmptyContent,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.green),
+            ),
+          )
         : ListView.builder(
-      itemCount: reminders.length,
-      itemBuilder: (context, index) {
-        final reminder = reminders[index];
-        return ReminderItem(reminder: reminder);
-      },
-    );
+            itemCount: reminders.length,
+            itemBuilder: (context, index) {
+              final reminder = reminders[index];
+              return ReminderItem(reminder: reminder);
+            },
+          );
   }
 }

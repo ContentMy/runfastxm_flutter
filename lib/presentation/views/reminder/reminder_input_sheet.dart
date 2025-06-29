@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../../resources/assets.dart';
+import '../../../resources/strings.dart';
 
 class ReminderInputSheet extends StatefulWidget {
   final Function(String content, Duration duration) onSubmit;
@@ -12,9 +15,9 @@ class ReminderInputSheet extends StatefulWidget {
 class _ReminderInputSheetState extends State<ReminderInputSheet> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
+  bool _hasText = false;
 
   final List<Duration> _presetDurations = [
-    Duration(minutes: 1),
     Duration(minutes: 5),
     Duration(minutes: 10),
     Duration(minutes: 15),
@@ -29,10 +32,18 @@ class _ReminderInputSheetState extends State<ReminderInputSheet> {
 
   void _submit() {
     final text = _controller.text.trim();
-    if (text.isNotEmpty) {
-      widget.onSubmit(text, _selectedDuration);
-      Navigator.of(context).pop(); // 收起弹窗
+    if (text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: Strings.reminderCreateNullToast,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 14,
+      );
+      return;
     }
+    widget.onSubmit(text, _selectedDuration);
+    Navigator.of(context).pop(); // 收起弹窗
   }
 
 
@@ -40,6 +51,11 @@ class _ReminderInputSheetState extends State<ReminderInputSheet> {
   void initState() {
     super.initState();
 
+    _controller.addListener(() {
+      setState(() {
+        _hasText = _controller.text.trim().isNotEmpty;
+      });
+    });
     // 延迟激活焦点，让弹窗先渲染完毕
     Future.delayed(const Duration(milliseconds: 200), () {
       _focusNode.requestFocus();
@@ -65,7 +81,10 @@ class _ReminderInputSheetState extends State<ReminderInputSheet> {
               left: 16,
               right: 16,
               top: 16,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+              bottom: MediaQuery
+                  .of(context)
+                  .viewInsets
+                  .bottom + 16,
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -84,12 +103,12 @@ class _ReminderInputSheetState extends State<ReminderInputSheet> {
                         controller: _controller,
                         focusNode: _focusNode,
                         decoration: const InputDecoration(
-                          hintText: '请输入想要提醒的事项',
+                          hintText: Strings.reminderCreateEmptyTitle,
                           border: InputBorder.none, // 去掉边框
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const Text('请选择提醒时间:'),
+                      const Text(Strings.reminderCreateTimePrompt),
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 36,
@@ -104,16 +123,18 @@ class _ReminderInputSheetState extends State<ReminderInputSheet> {
                                 : '${duration.inHours}小时';
 
                             return GestureDetector(
-                              onTap: () => setState(() {
-                                _selectedDuration = duration;
-                              }),
+                              onTap: () =>
+                                  setState(() {
+                                    _selectedDuration = duration;
+                                  }),
                               child: Container(
                                 margin: const EdgeInsets.only(right: 8),
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? Colors.blue
-                                      : Colors.grey[300],
+                                      ? Colors.black
+                                      : Colors.green,
                                   borderRadius: BorderRadius.circular(18),
                                 ),
                                 alignment: Alignment.center,
@@ -140,7 +161,10 @@ class _ReminderInputSheetState extends State<ReminderInputSheet> {
                   child: Align(
                     alignment: Alignment.center,
                     child: IconButton(
-                      icon: const Icon(Icons.send),
+                      icon: Image.asset(_hasText
+                          ? Assets.reminderImgSend
+                          : Assets.reminderImgSendDefault, width: 24, height:
+                          24),
                       onPressed: _submit,
                       tooltip: '发送',
                     ),

@@ -10,6 +10,10 @@ class Assets {
   static const String commonImgAdd = 'assets/images/common/ui_add.png';
   ///reminder
   static const String reminderImgMenu = 'assets/images/reminder/ui_more_menu.png';
+  static const String reminderImgRemind = 'assets/images/reminder/ui_remind.png';
+  static const String reminderImgRemindCompleted = 'assets/images/reminder/ui_remind_completed.png';
+  static const String reminderImgSend = 'assets/images/reminder/ui_send.png';
+  static const String reminderImgSendDefault = 'assets/images/reminder/ui_send_gray.png';
   ///goal
   static const String goalImg = 'assets/images/';
   ///diary
