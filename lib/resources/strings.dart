@@ -38,6 +38,12 @@ class Strings {
   static const goalCreateEndTimeDefault = '永不结束';
   ///diary
   static const diaryTitle = '记录生活';
+  static const diaryEmptyContent = '这里还没有生活记录哦~\n点击上面的输入框写下你的生活记录吧！';
+  static const diaryCreateTitleHint = '记录一下今天的心情吧';
+  static const diaryCreateTitle = '新建记录';
+  static const diaryCreateContentPrompt = '记录一下详细内容吧：';
+  static const diaryCreateContentHint = '我还想说...';
+  static const diaryCreateImagePrompt = '选择想要的图片吧：';
   ///settings
   static const settingsTitle = '个人设置';
 }

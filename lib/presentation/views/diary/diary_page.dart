@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../domain/models/diary.dart';
+import '../../../resources/assets.dart';
+import '../../../resources/colors.dart';
+import '../../../resources/strings.dart';
 import '../../view_models/diary_view_model.dart';
 import 'diary_create_page.dart';
 
@@ -12,7 +15,7 @@ class DiaryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('记录生活'),
+        title: const Text(Strings.diaryTitle),
       ),
       body: Consumer<DiaryViewModel>(
         builder: (context, viewModel, child) {
@@ -41,11 +44,11 @@ class DiaryPage extends StatelessWidget {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '记录一下今天的心情吧',
-                      style: TextStyle(color: Colors.black54),
+                      Strings.diaryCreateTitleHint,
+                      style: TextStyle(color: AppColors.commonGray),
                     ),
                   ),
                 ),
@@ -54,8 +57,9 @@ class DiaryPage extends StatelessWidget {
                 child: entries.isEmpty
                     ? const Center(
                   child: Text(
-                    '暂无日记记录',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                    Strings.diaryEmptyContent,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.commonGreen,fontWeight: FontWeight.w600),
                   ),
                 )
                     : Stack(
@@ -148,7 +152,7 @@ class _DiaryItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.sentiment_satisfied, size: 40),
+          Image.asset(Assets.diaryImgSmail, width: 36, height: 36),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

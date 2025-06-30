@@ -50,7 +50,7 @@ class Assets {
   ];
 
   ///diary
-  static const String diaryImgSmail = 'assets/images/';
+  static const String diaryImgSmail = 'assets/images/diary/ui_emoji_smile.png';
   ///setting
   static const String settingImgSmail = 'assets/images/';
 }

@@ -43,7 +43,7 @@ class GoalPage extends StatelessWidget {
                   child: Text(
                     Strings.goalEmptyContent,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.commonGreen),
+                    style: TextStyle(color: AppColors.commonGreen,fontWeight: FontWeight.w600),
                   ),
                 )
               : ListView.builder(
@@ -74,8 +74,8 @@ class GoalPage extends StatelessWidget {
                           children: [
                             Image.asset(
                               icons[index],
-                              width: 24,
-                              height: 24,
+                              width: 48,
+                              height: 48,
                               fit: BoxFit.contain,
                             ),
                             const SizedBox(width: 12),

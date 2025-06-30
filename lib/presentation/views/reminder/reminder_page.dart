@@ -75,7 +75,7 @@ class _ReminderBody extends StatelessWidget {
             child: Text(
               Strings.reminderEmptyContent,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.commonGreen),
+              style: TextStyle(color: AppColors.commonGreen,fontWeight: FontWeight.w600),
             ),
           )
         : ListView.builder(
