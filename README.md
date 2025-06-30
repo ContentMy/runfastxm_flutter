@@ -22,22 +22,22 @@ Kotlin版本：https://github.com/ContentMy/RunFastXM
 
 * 事项提醒功能模块
 
-  待补充
+  提醒功能说明：https://github.com/ContentMy/runfastxm_flutter/blob/master/instructions/remindInstruction.md
 
 * 目标管理功能模块
 
-  待补充
+  目标功能说明：https://github.com/ContentMy/runfastxm_flutter/blob/master/instructions/goalInstruction.md
 
 * 备忘记录功能模块
 
-  待补充
+  日记功能说明：https://github.com/ContentMy/runfastxm_flutter/blob/master/instructions/diaryInstruction.md
 
 * 个人设置功能模块
 
-  待补充
+  <img src="screenshot/个人设置.jpg" alt="个人设置" width="300"/>
 
 #### 功能架构
-待补充
+文档链接：https://github.com/ContentMy/runfastxm_flutter/blob/master/instructions/功能架构.md
 
 #### 代码架构
 
