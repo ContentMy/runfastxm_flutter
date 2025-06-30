@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:runfastxm_flutter/resources/strings.dart';
 import '../../../domain/models/reminder.dart';
+import '../../../resources/assets.dart';
+import '../../../resources/colors.dart';
 import '../../view_models/reminder_view_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -13,10 +16,11 @@ class ReminderCompletedPage extends StatelessWidget {
         context.watch<ReminderViewModel>().completedReminders;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('已完成提醒')),
+      appBar: AppBar(title: const Text(Strings.reminderCompletedTitle)),
       body: completedReminders.isEmpty
-          ? const Center(child: Text('还没有已完成的提醒哦，快去添加提醒吧！'))
+          ? const Center(child: Text(Strings.reminderCompletedEmptyContent))
           : ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         itemCount: completedReminders.length,
         itemBuilder: (context, index) {
           final reminder = completedReminders[index];
@@ -24,47 +28,70 @@ class ReminderCompletedPage extends StatelessWidget {
             key: Key(reminder.id),
             endActionPane: ActionPane(
               motion: const DrawerMotion(),
-              extentRatio: 0.5, // 两个按钮占宽度的比例
+              extentRatio: 0.6,
               children: [
                 SlidableAction(
+                  flex: 3, // 分到更多空间
                   onPressed: (_) {
-                    // 🔁 重新提醒（复用原来的逻辑）
-                    final newReminder = Reminder(
-                      id: DateTime.now().millisecondsSinceEpoch.toString(), // 新id
-                      remindImg: reminder.remindImg,
-                      remindTitle: reminder.remindTitle,
-                      remindContent: reminder.remindContent,
-                      remindTime: reminder.remindTime,
+                    context
+                        .read<ReminderViewModel>()
+                        .addReminderFromCompleted(reminder.copyWith(
+                      remindCompleteStatus: false,
                       remindStartTime: DateTime.now().millisecondsSinceEpoch,
                       remindEndTime: DateTime.now()
                           .add(Duration(milliseconds: reminder.remindTime))
                           .millisecondsSinceEpoch,
-                      remindCompleteStatus: false,
-                    );
-                    context.read<ReminderViewModel>().addReminderFromCompleted(newReminder);
+                    ));
                   },
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  icon: Icons.refresh,
-                  label: '重新提醒',
+                  backgroundColor: AppColors.commonGreen,
+                  foregroundColor: AppColors.commonWhite,
+                  label: Strings.remindResetString,
                 ),
                 SlidableAction(
+                  flex: 2, // 分到更多空间
                   onPressed: (_) {
                     context.read<ReminderViewModel>().removeReminder(reminder);
                   },
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete,
-                  label: '删除',
+                  backgroundColor: AppColors.commonGray,
+                  foregroundColor: AppColors.commonWhite,
+                  label: Strings.deleteString,
                 ),
               ],
             ),
-            child: ListTile(
-              leading: const Icon(Icons.check_circle, color: Colors.green),
-              title: Text(reminder.remindTitle),
-              subtitle: Text('已完成提醒'),
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.commonGrayLight, // 或你指定的颜色
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.commonBlack),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.commonBlackShadow,
+                    offset: const Offset(2, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                leading: Image.asset(
+                  Assets.reminderImgRemindCompleted,
+                  width: 32,
+                  height: 32,
+                  fit: BoxFit.contain,
+                ),
+                title: Text(
+                  reminder.remindTitle,
+                  style: const TextStyle(color: AppColors.commonBlack),
+                ),
+                // subtitle: const Text(
+                //   '已完成提醒',
+                //   style: TextStyle(color: Colors.white70),
+                // ),
+              ),
             ),
           );
+
         },
       ),
     );

@@ -112,7 +112,26 @@ class ReminderViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  void addReminderFromCompleted(Reminder newReminder) {
-    // 可选实现
+  Future<void> addReminderFromCompleted(Reminder newReminder) async {
+    // 替换旧数据：找到原 Reminder 并移除
+    _reminders.removeWhere((r) => r.id == newReminder.id);
+
+    // 保存新 Reminder
+    await _repository.add(newReminder);
+    _reminders.add(newReminder);
+    notifyListeners();
+
+    // 重新调度通知
+    final scheduledTime = DateTime.now().add(
+      Duration(milliseconds: newReminder.remindTime),
+    );
+    debugPrint("⏰ 重新调度提醒时间: $scheduledTime");
+
+    await NotificationService.showScheduledNotification(
+      id: newReminder.id.hashCode,
+      title: "提醒事项",
+      body: newReminder.remindTitle,
+      scheduledTime: scheduledTime,
+    );
   }
 }

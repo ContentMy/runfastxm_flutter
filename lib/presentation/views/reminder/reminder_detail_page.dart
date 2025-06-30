@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:runfastxm_flutter/resources/colors.dart';
+import 'package:runfastxm_flutter/resources/strings.dart';
 import '../../../domain/models/reminder.dart';
-import '../../view_models/reminder_view_model.dart';
 
 class ReminderDetailPage extends StatefulWidget {
   final Reminder reminder;
@@ -63,7 +64,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       body: Center(
         child: _isFinished
             ? const Text(
-          '已经到达预计的提醒时间了哦！\n赶快完成你的事情吧！',
+          Strings.remindDetailEmptyContent,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         )
             : Column(
@@ -111,7 +112,7 @@ class _FlipDigit extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 2),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: AppColors.commonBlack,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
@@ -119,7 +120,7 @@ class _FlipDigit extends StatelessWidget {
         style: const TextStyle(
           fontSize: 48,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: AppColors.commonWhite,
           fontFeatures: [FontFeature.tabularFigures()],
         ),
       ),

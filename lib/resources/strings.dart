@@ -3,6 +3,7 @@ class Strings {
   Strings._();
   ///common
   static const appName = 'RunFast';
+  static const deleteString = '删除';
   ///guide
   static const guideRemindTitle = '即时提醒';
   static const guideRemindContent = '不在担心忙于其他事错过时间\n也不用烦恼扭头忘记了想要做的事情\n想做什么先把它记录下来，我来为您提醒';
@@ -19,6 +20,8 @@ class Strings {
   static const reminderCreateEmptyTitle = '请输入想要提醒的事项';
   static const reminderCreateTimePrompt = '请选择提醒时间：';
   static const reminderCreateNullToast = '请输入想要提醒的事项后再确认哦';
+  static const remindResetString = '重新提醒';
+  static const remindDetailEmptyContent = '已经到达预计的提醒时间了哦！\n赶快完成你的事情吧！';
 
   ///goal
   static const goalTitle = '目标列表';

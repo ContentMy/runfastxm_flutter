@@ -44,5 +44,28 @@ class Reminder extends HiveObject {
   DateTime get endDateTime => DateTime.fromMillisecondsSinceEpoch(remindEndTime);
 
   Duration get duration => Duration(milliseconds: remindTime);
+
+  Reminder copyWith({
+    String? id,
+    String? remindImg,
+    String? remindTitle,
+    String? remindContent,
+    int? remindTime,
+    int? remindStartTime,
+    int? remindEndTime,
+    bool? remindCompleteStatus,
+  }) {
+    return Reminder(
+      id: id ?? this.id,
+      remindImg: remindImg ?? this.remindImg,
+      remindTitle: remindTitle ?? this.remindTitle,
+      remindContent: remindContent ?? this.remindContent,
+      remindTime: remindTime ?? this.remindTime,
+      remindStartTime: remindStartTime ?? this.remindStartTime,
+      remindEndTime: remindEndTime ?? this.remindEndTime,
+      remindCompleteStatus: remindCompleteStatus ?? this.remindCompleteStatus,
+    );
+  }
+
 }
 

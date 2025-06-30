@@ -16,6 +16,7 @@ import 'presentation/views/reminder/reminder_page.dart';
 import 'presentation/views/goal/goal_page.dart';
 import 'presentation/views/diary/diary_page.dart';
 import 'presentation/views/settings/settings_page.dart';
+import 'resources/colors.dart';
 
 void main() async {
   //以下是hive初始化的代码部分
@@ -55,9 +56,6 @@ class RunFastApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'RunFast',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
       home: const MainScaffold(),
     );
   }
@@ -90,7 +88,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.green,
+        selectedItemColor: AppColors.commonGreen,
         onTap: (index) => setState(() => _currentIndex = index),
         items: [
           const BottomNavigationBarItem(icon: ImageIcon(

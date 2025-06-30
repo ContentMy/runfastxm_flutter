@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../resources/assets.dart';
+import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
 import 'reminder_completed_page.dart';
 import '../../../services/permission_service.dart';
@@ -53,7 +54,7 @@ class ReminderPage extends StatelessWidget {
       body: const _ReminderBody(),
       floatingActionButton: FloatingActionButton(
         heroTag: null,
-        backgroundColor: Colors.green,
+        backgroundColor: AppColors.commonGreen,
         shape: const CircleBorder(),
         onPressed: () => _showAddReminderSheet(context),
         child: Image.asset(Assets.commonImgAdd, width: 24, height: 24),
@@ -69,20 +70,23 @@ class _ReminderBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final reminders = context.watch<ReminderViewModel>().reminders;
 
-    // ✅ 添加 return，修复无返回的 bug
     return reminders.isEmpty
         ? const Center(
             child: Text(
               Strings.reminderEmptyContent,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.green),
+              style: TextStyle(color: AppColors.commonGreen),
             ),
           )
         : ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             itemCount: reminders.length,
             itemBuilder: (context, index) {
               final reminder = reminders[index];
-              return ReminderItem(reminder: reminder);
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: ReminderItem(reminder: reminder),
+              );
             },
           );
   }
