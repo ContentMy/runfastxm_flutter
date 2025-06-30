@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:runfastxm_flutter/domain/models/goal.dart';
+import 'package:runfastxm_flutter/resources/colors.dart';
+import 'package:runfastxm_flutter/resources/strings.dart';
+
+import '../../../resources/assets.dart';
 
 class GoalEditPage extends StatefulWidget {
   final Goal? goal;
@@ -21,17 +25,16 @@ class _GoalEditPageState extends State<GoalEditPage> {
   int _selectedStatusIndex = 0;
   bool _needRemind = false;
 
-  final List<IconData> _icons = [
-    Icons.star, Icons.book, Icons.fitness_center, Icons.music_note,
-    Icons.palette, Icons.code, Icons.language, Icons.camera_alt, Icons.travel_explore
-  ];
+  final icons = Assets.goalIconList;
 
   final List<String> _statuses = ['暂不设置', '早晨', '上午', '中午', '下午', '晚上', '深夜'];
 
   Future<void> _pickDate({required bool isStart}) async {
     final initialDate = isStart
         ? DateTime.fromMillisecondsSinceEpoch(_startTime)
-        : (_endTime != null ? DateTime.fromMillisecondsSinceEpoch(_endTime!) : DateTime.now());
+        : (_endTime != null
+              ? DateTime.fromMillisecondsSinceEpoch(_endTime!)
+              : DateTime.now());
 
     final picked = await showDatePicker(
       context: context,
@@ -89,36 +92,49 @@ class _GoalEditPageState extends State<GoalEditPage> {
             child: Container(
               width: 80,
               height: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.grey),
               ),
-              child: Icon(_icons[_selectedIconIndex], size: 40),
+              child: Image.asset(
+                icons[_selectedIconIndex],
+                width: 24,
+                height: 24,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           const SizedBox(height: 12),
-          Center(
+          Center(///想要修改为自适应hint宽度，跟随输入文本增加宽度增加，然后达到最大宽度换行，但是flutter目前的直接方案不支持，后续尝试进行优化
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               color: Colors.grey[200],
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width - 32,
+              ),
               child: TextField(
                 controller: _titleController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
-                  hintText: '请输入目标的名称',
+                  hintText: Strings.goalCreateTitleHint,
                   border: InputBorder.none,
                 ),
+                maxLines: null,
               ),
             ),
           ),
           const SizedBox(height: 24),
-          _buildSectionTitle(Icons.image, '请挑选目标的图标：'),
+          _buildSectionTitle(
+            Assets.goalSmallIconChoose,
+            Strings.goalCreateIconChoosePrompt,
+          ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 80,
+            height: 60,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: _icons.length,
+              itemCount: icons.length,
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final selected = index == _selectedIconIndex;
@@ -127,15 +143,19 @@ class _GoalEditPageState extends State<GoalEditPage> {
                     setState(() => _selectedIconIndex = index);
                   },
                   child: Container(
-                    width: 60,
-                    height: 60,
+                    width: 40,
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: selected
                           ? Border.all(color: Colors.blue, width: 2)
                           : null,
                     ),
-                    child: Icon(_icons[index], size: 30),
+                    child: Image.asset(icons[index], fit: BoxFit.contain),
                   ),
                 );
               },
@@ -143,55 +163,80 @@ class _GoalEditPageState extends State<GoalEditPage> {
           ),
           const SizedBox(height: 24),
           _buildDatePicker(
-              Icons.calendar_today,
-              '目标开始时间：',
-              DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(_startTime)),
-                  () => _pickDate(isStart: true)
+            Assets.goalSmallIconStartTime,
+            Strings.goalCreateStartTimePrompt,
+            DateFormat(
+              'yyyy-MM-dd',
+            ).format(DateTime.fromMillisecondsSinceEpoch(_startTime)),
+            () => _pickDate(isStart: true),
           ),
           const SizedBox(height: 16),
           _buildDatePicker(
-              Icons.date_range,
-              '目标结束时间：',
-              _endTime != null
-                  ? DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(_endTime!))
-                  : '永不结束',
-                  () => _pickDate(isStart: false)
+            Assets.goalSmallIconEndTime,
+            Strings.goalCreateEndTimePrompt,
+            _endTime != null
+                ? DateFormat(
+                    'yyyy-MM-dd',
+                  ).format(DateTime.fromMillisecondsSinceEpoch(_endTime!))
+                : Strings.goalCreateEndTimeDefault,
+            () => _pickDate(isStart: false),
           ),
           const SizedBox(height: 16),
-          _buildSectionTitle(Icons.access_time, '目标状态：'),
-          const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              _statuses[_selectedStatusIndex],
-              style: const TextStyle(color: Colors.grey),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildSectionTitle(
+                Assets.goalSmallIconCalendar,
+                Strings.goalCreateStatusChoosePrompt,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Text(
+                  _statuses[_selectedStatusIndex],
+                  style: const TextStyle(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(_statuses.length, (index) {
+                final selected = index == _selectedStatusIndex;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: GestureDetector(
+                    onTap: () => setState(() => _selectedStatusIndex = index),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: selected ? AppColors.commonBlack : AppColors.commonGrayLight,
+                        border: Border.all(color: AppColors.commonBlack),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        _statuses[index],
+                        style: TextStyle(
+                          color: selected ? AppColors.commonWhite : AppColors.commonBlack,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: List.generate(_statuses.length, (index) {
-              final selected = index == _selectedStatusIndex;
-              return GestureDetector(
-                onTap: () => setState(() => _selectedStatusIndex = index),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: selected ? Colors.blue : Colors.grey[200],
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    _statuses[index],
-                    style: TextStyle(color: selected ? Colors.white : Colors.black),
-                  ),
-                ),
-              );
-            }),
-          ),
+
           const SizedBox(height: 24),
-          _buildSectionTitle(Icons.edit_note, '目标备注：'),
+          _buildSectionTitle(
+            Assets.goalSmallIconRecord,
+            Strings.goalCreateContentPrompt,
+          ),
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.all(12),
@@ -200,34 +245,32 @@ class _GoalEditPageState extends State<GoalEditPage> {
               controller: _contentController,
               maxLines: 3,
               decoration: const InputDecoration(
-                hintText: '输入目标描述...',
+                hintText: Strings.goalCreateContentHint,
                 border: InputBorder.none,
               ),
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            children: [
-              const Icon(Icons.notifications, size: 20, color: Colors.black),
-              const SizedBox(width: 8),
-              const Text('开启提醒', style: TextStyle(fontSize: 16)),
-              const Spacer(),
-              Switch(
-                value: _needRemind,
-                onChanged: (value) => setState(() => _needRemind = value),
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
+          // Row(
+          //   children: [
+          //     const Icon(Icons.notifications, size: 20, color: Colors.black),
+          //     const SizedBox(width: 8),
+          //     const Text('开启提醒', style: TextStyle(fontSize: 16)),
+          //     const Spacer(),
+          //     Switch(
+          //       value: _needRemind,
+          //       onChanged: (value) => setState(() => _needRemind = value),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 32),
           SizedBox(
             width: double.infinity,
             height: 48,
             child: ElevatedButton(
               onPressed: _saveGoal,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              child: const Text('保存', style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              child: const Text(Strings.saveString, style: TextStyle(color: Colors.white)),
             ),
           ),
         ],
@@ -237,9 +280,9 @@ class _GoalEditPageState extends State<GoalEditPage> {
 
   void _saveGoal() {
     if (_titleController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('请输入目标名称')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('请输入目标名称')));
       return;
     }
 
@@ -257,28 +300,34 @@ class _GoalEditPageState extends State<GoalEditPage> {
     Navigator.pop(context, goal);
   }
 
-  Widget _buildSectionTitle(IconData icon, String text) {
+  Widget _buildSectionTitle(String assetPath, String text) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: Colors.black),
+        Image.asset(assetPath, width: 20, height: 20, fit: BoxFit.contain),
         const SizedBox(width: 8),
-        Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          text,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ],
     );
   }
 
-  Widget _buildDatePicker(IconData icon, String label, String value, VoidCallback onTap) {
+  Widget _buildDatePicker(
+    String assetPath,
+    String label,
+    String value,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.black),
+          Image.asset(assetPath, width: 20, height: 20, fit: BoxFit.contain),
           const SizedBox(width: 8),
-          Expanded(
-            child: Text(label, style: const TextStyle(fontSize: 16)),
-          ),
-          Text(value, style: const TextStyle(color: Colors.grey)),
-          const Icon(Icons.chevron_right, color: Colors.grey),
+          Expanded(child: Text(label, style: const TextStyle(fontSize: 16))),
+          Text(value, style: const TextStyle(color: AppColors.commonGray)),
+          const Icon(Icons.chevron_right, color: AppColors.commonGray),
         ],
       ),
     );

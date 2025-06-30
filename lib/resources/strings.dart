@@ -4,6 +4,7 @@ class Strings {
   ///common
   static const appName = 'RunFast';
   static const deleteString = '删除';
+  static const saveString = '保存';
   ///guide
   static const guideRemindTitle = '即时提醒';
   static const guideRemindContent = '不在担心忙于其他事错过时间\n也不用烦恼扭头忘记了想要做的事情\n想做什么先把它记录下来，我来为您提醒';
@@ -25,6 +26,16 @@ class Strings {
 
   ///goal
   static const goalTitle = '目标列表';
+  static const goalEmptyContent = '种下一棵树最好的时间是十年前，其次是现在~\n所以赶快点击“+”添加你的目标吧！';
+  static const goalCreateTitleHint = '请输入目标的名称';
+  static const goalCreateIconChoosePrompt = '请挑选目标的图标：';
+  static const goalCreateStartTimePrompt = '目标开始时间：';
+  static const goalCreateEndTimePrompt = '目标结束时间：';
+  static const goalCreateStatusChoosePrompt = '目标状态：';
+  static const goalCreateRemindPrompt = '开启提醒：';
+  static const goalCreateContentPrompt = '对自己说一些什么吧：';
+  static const goalCreateContentHint = '小马快跑';
+  static const goalCreateEndTimeDefault = '永不结束';
   ///diary
   static const diaryTitle = '记录生活';
   ///settings
