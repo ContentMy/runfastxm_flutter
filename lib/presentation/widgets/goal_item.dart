@@ -55,7 +55,7 @@ class GoalItem extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _navigateToEdit(context),
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.commonGreenMidNext,
