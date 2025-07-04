@@ -52,7 +52,7 @@ class GoalPage extends StatelessWidget {
               final goal = goals[index];
               return Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
-                child: GoalItem(goal: goal, iconIndex: index,),
+                child: GoalItem(goal: goal, iconIndex: goal.iconIndex,),
               );
             },
           ),
