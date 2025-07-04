@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:runfastxm_flutter/presentation/widgets/goal_item.dart';
 import '../../../domain/models/goal.dart';

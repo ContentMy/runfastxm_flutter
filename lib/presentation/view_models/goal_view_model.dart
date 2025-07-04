@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:runfastxm_flutter/domain/models/goal.dart';
 import '../../data/repositories_impl/goal_repository_impl.dart';
+import '../../data/services/goal_service.dart';
 
 class GoalViewModel extends ChangeNotifier {
+  final GoalService _goalService;
   final GoalRepository _repository;
 
-  GoalViewModel(this._repository);
+  GoalViewModel(this._goalService, this._repository){
+    loadGoals();
+  }
 
   List<Goal> _goals = [];
   List<Goal> get goals => _goals;
@@ -26,7 +30,7 @@ class GoalViewModel extends ChangeNotifier {
   }
 
   void deleteGoal(String id) async {
-    await _repository.deleteGoal(id);
+    await _goalService.deleteGoalWithCheckIns(id);
     loadGoals();
   }
 
