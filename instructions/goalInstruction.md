@@ -12,8 +12,8 @@
 
 ###### 目标打卡
 
-待完成
+<img src="img/goal/未打卡目标.jpg" alt="未打卡目标" width="300"/><img src="img/goal/已打卡目标.jpg" alt="已打卡目标" width="300"/>
 
 ###### 删除目标
 
-待完成
+<img src="img/goal/删除目标.jpg" alt="删除目标" width="300"/>
