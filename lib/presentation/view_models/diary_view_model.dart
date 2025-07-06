@@ -10,6 +10,10 @@ class DiaryViewModel extends ChangeNotifier {
 
   List<Diary> get diaries => _diaries;
 
+  String? _selectedId;
+
+  String? get selectedId => _selectedId;
+
   DiaryViewModel(this._repository){
     loadDiaries();
   }
@@ -40,6 +44,19 @@ class DiaryViewModel extends ChangeNotifier {
 
   Diary? getDiaryById(String id) {
     return _repository.getDiaryById(id);
+  }
+
+
+  void selectDiary(String id) {
+    _selectedId = id;
+    notifyListeners();
+  }
+
+  void clearSelection() {
+    if (_selectedId != null) {
+      _selectedId = null;
+      notifyListeners();
+    }
   }
 }
 

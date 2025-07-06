@@ -1,4 +1,4 @@
-# 小马快跑 - Flutter版本 - Beta1
+# 小马快跑 - Flutter版本 - Beta2
 
 #### 简介
 

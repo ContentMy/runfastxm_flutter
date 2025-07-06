@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:runfastxm_flutter/domain/models/goal.dart';
-import 'package:runfastxm_flutter/presentation/views/goal/goal_edit_page.dart';
-
+import 'package:runfastxm_flutter/presentation/widgets/goal_item.dart';
+import '../../../domain/models/goal.dart';
 import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
 import '../../view_models/goal_view_model.dart';
+import 'goal_edit_page.dart';
 
 class GoalPage extends StatelessWidget {
   const GoalPage({super.key});
-
-  final icons = Assets.goalIconList;
 
   void _navigateToEdit(BuildContext context, [Goal? goal]) async {
     final result = await Navigator.push<Goal>(
@@ -40,101 +37,32 @@ class GoalPage extends StatelessWidget {
           appBar: AppBar(title: const Text(Strings.goalTitle)),
           body: goals.isEmpty
               ? const Center(
-                  child: Text(
-                    Strings.goalEmptyContent,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.commonGreen,fontWeight: FontWeight.w600),
-                  ),
-                )
+            child: Text(
+              Strings.goalEmptyContent,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: AppColors.commonGreen,
+                  fontWeight: FontWeight.w600),
+            ),
+          )
               : ListView.builder(
-                  itemCount: goals.length,
-                  itemBuilder: (context, index) {
-                    final goal = goals[index];
-                    return GestureDetector(
-                      onTap: () => _navigateToEdit(context, goal),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: AppColors.commonGreenMidNext,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.commonBlack),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: AppColors.commonBlackShadow,
-                              offset: Offset(2, 2),
-                              blurRadius: 4,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              icons[index],
-                              width: 48,
-                              height: 48,
-                              fit: BoxFit.contain,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    goal.title,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    goal.content,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.commonGray,
-                                    ),
-                                  ),
-                                  // Row(
-                                  //   children: [
-                                  //     Text(
-                                  //       DateFormat(
-                                  //         'yyyy-MM-dd',
-                                  //       ).format(goal.startDateTime),
-                                  //       style: const TextStyle(fontSize: 12),
-                                  //     ),
-                                  //     const Text(
-                                  //       ' 至 ',
-                                  //       style: TextStyle(fontSize: 12),
-                                  //     ),
-                                  //     Text(
-                                  //       goal.isEndless
-                                  //           ? '永久'
-                                  //           : DateFormat(
-                                  //               'yyyy-MM-dd',
-                                  //             ).format(goal.endDateTime),
-                                  //       style: const TextStyle(fontSize: 12),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            itemCount: goals.length,
+            itemBuilder: (context, index) {
+              final goal = goals[index];
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: GoalItem(goal: goal, iconIndex: goal.iconIndex,),
+              );
+            },
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => _navigateToEdit(context),
             heroTag: null,
             backgroundColor: AppColors.commonGreen,
             shape: const CircleBorder(),
-            child: Image.asset(Assets.commonImgAdd, width: 24, height: 24),
+            child:
+            Image.asset(Assets.commonImgAdd, width: 24, height: 24),
           ),
         );
       },

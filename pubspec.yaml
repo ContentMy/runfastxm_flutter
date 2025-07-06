@@ -46,6 +46,8 @@ dependencies:
   permission_handler: ^11.3.1 #Android 权限动态申请
   intl: ^0.18.1 #格式化日期
   fluttertoast: ^8.2.4
+  flutter_native_splash: ^2.3.2 #启动页
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,12 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_native_splash:
+  color: "#FFFFFF" # 背景色
+  image: assets/icons/ic_launcher.png
+  android: true
+  ios: true
+
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -79,6 +87,7 @@ flutter:
   - assets/icons/diary/
   - assets/icons/settings/
   - assets/images/
+  - assets/images/guide/
   - assets/images/common/
   - assets/images/reminder/
   - assets/images/goal/
