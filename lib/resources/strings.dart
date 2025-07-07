@@ -44,6 +44,7 @@ class Strings {
   static const diaryCreateContentPrompt = '记录一下详细内容吧：';
   static const diaryCreateContentHint = '我还想说...';
   static const diaryCreateImagePrompt = '选择想要的图片吧：';
+  static const diaryDetailTitle = '记录详情';
   ///settings
   static const settingsTitle = '个人设置';
 }

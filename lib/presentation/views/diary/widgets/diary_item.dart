@@ -6,6 +6,8 @@ import '../../../view_models/diary_view_model.dart';
 
 import 'dart:io';
 
+import '../diary_detail_page.dart';
+
 class DiaryItem extends StatelessWidget {
   final Diary entry;
 
@@ -19,7 +21,16 @@ class DiaryItem extends StatelessWidget {
     return GestureDetector(
       onLongPress: () => viewModel.selectDiary(entry.id),
       onTap: () {
-        if (isSelected) viewModel.clearSelection();
+        if (isSelected) {
+          viewModel.clearSelection();
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => DiaryDetailPage(diary: entry),
+            ),
+          );
+        }
       },
       child: Stack(
         clipBehavior: Clip.none,
