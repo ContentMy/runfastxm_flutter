@@ -24,6 +24,9 @@ class Diary extends HiveObject {
   @HiveField(5)
   final int updateTime;
 
+  @HiveField(6)
+  final List<String> images;
+
   Diary({
     String? id,
     this.icon,
@@ -31,6 +34,7 @@ class Diary extends HiveObject {
     required this.content,
     required this.createTime,
     required this.updateTime,
+    this.images = const [],
   }) : id = id ?? const Uuid().v4();
 
   Diary copyWith({
@@ -40,6 +44,7 @@ class Diary extends HiveObject {
     String? content,
     int? createTime,
     int? updateTime,
+    List<String>? images,
   }) {
     return Diary(
       id: id ?? this.id,
@@ -48,6 +53,7 @@ class Diary extends HiveObject {
       content: content ?? this.content,
       createTime: createTime ?? this.createTime,
       updateTime: updateTime ?? this.updateTime,
+      images: images ?? this.images,
     );
   }
 

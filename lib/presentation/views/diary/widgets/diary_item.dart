@@ -4,6 +4,8 @@ import '../../../../domain/models/diary.dart';
 import '../../../../resources/assets.dart';
 import '../../../view_models/diary_view_model.dart';
 
+import 'dart:io';
+
 class DiaryItem extends StatelessWidget {
   final Diary entry;
 
@@ -20,7 +22,7 @@ class DiaryItem extends StatelessWidget {
         if (isSelected) viewModel.clearSelection();
       },
       child: Stack(
-        clipBehavior: Clip.none,//兼容超出布局的部分不会被裁剪
+        clipBehavior: Clip.none,
         children: [
           Container(
             margin: const EdgeInsets.only(left: 56, right: 16, bottom: 12),
@@ -37,6 +39,7 @@ class DiaryItem extends StatelessWidget {
               ],
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(Assets.diaryImgSmail, width: 36, height: 36),
                 const SizedBox(width: 12),
@@ -63,6 +66,27 @@ class DiaryItem extends StatelessWidget {
                               height: 60,
                               fit: BoxFit.cover,
                             ),
+                          ),
+                        ),
+
+                      /// 新增：展示图片列表
+                      if (entry.images.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: entry.images.take(3).map((path) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  File(path),
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                     ],
@@ -95,3 +119,4 @@ class DiaryItem extends StatelessWidget {
     );
   }
 }
+

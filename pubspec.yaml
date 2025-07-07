@@ -48,6 +48,7 @@ dependencies:
   fluttertoast: ^8.2.4
   flutter_native_splash: ^2.3.2 #启动页
   shared_preferences: ^2.2.2
+  image_picker: ^1.1.1 # 图片选择
 
 dev_dependencies:
   flutter_test:
