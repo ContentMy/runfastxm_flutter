@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
+import '../../widgets/main_title_with_bg.dart';
 import 'reminder_completed_page.dart';
 import '../../../services/permission_service.dart';
 import '../../view_models/reminder_view_model.dart';
@@ -71,15 +72,11 @@ class _ReminderPageState extends State<ReminderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(Strings.reminderTitle),
+        title: const MainTitleWithBg(title: Strings.reminderTitle),
         actions: [
           IconButton(
             key: menuKey,
-            icon: Image.asset(
-              Assets.reminderImgMenu,
-              width: 24,
-              height: 24,
-            ),
+            icon: Image.asset(Assets.reminderImgMenu, width: 24, height: 24),
             onPressed: () {
               Navigator.push(
                 context,
@@ -98,16 +95,11 @@ class _ReminderPageState extends State<ReminderPage> {
         backgroundColor: AppColors.commonGreen,
         shape: const CircleBorder(),
         onPressed: () => _showAddReminderSheet(context),
-        child: Image.asset(
-          Assets.commonImgAdd,
-          width: 24,
-          height: 24,
-        ),
+        child: Image.asset(Assets.commonImgAdd, width: 24, height: 24),
       ),
     );
   }
 }
-
 
 class _ReminderBody extends StatelessWidget {
   const _ReminderBody();
@@ -121,7 +113,10 @@ class _ReminderBody extends StatelessWidget {
             child: Text(
               Strings.reminderEmptyContent,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.commonGreen,fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: AppColors.commonGreen,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           )
         : ListView.builder(

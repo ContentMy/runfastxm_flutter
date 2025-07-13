@@ -2,7 +2,7 @@
 class Strings {
   Strings._();
   ///common
-  static const appName = 'RunFast';
+  static const appName = '小马快跑';
   static const deleteString = '删除';
   static const saveString = '保存';
   ///guide
@@ -52,4 +52,9 @@ class Strings {
   static const diaryDetailTitle = '记录详情';
   ///settings
   static const settingsTitle = '个人设置';
+  static const settingsInfoTitle = '关于小马快跑';
+  static const settingsPrivacyTitle = '隐私政策与用户协议';
+  static const settingsHelpTitle = '使用说明';
+  static const settingsNotificationTitle = '提醒设置';
+
 }
