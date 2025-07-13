@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
 import '../../view_models/diary_view_model.dart';
+import '../../widgets/main_title_with_bg.dart';
 import 'diary_create_page.dart';
 import 'widgets/diary_timeline.dart';
 
@@ -15,7 +16,7 @@ class DiaryPage extends StatelessWidget {
       // 点击空白区域取消所有编辑状态
       onTap: () => context.read<DiaryViewModel>().clearSelection(),
       child: Scaffold(
-        appBar: AppBar(title: const Text(Strings.diaryTitle)),
+        appBar: AppBar(title: const MainTitleWithBg(title: Strings.diaryTitle)),
         body: Consumer<DiaryViewModel>(
           builder: (context, viewModel, _) {
             final entries = viewModel.diaries;

@@ -2,7 +2,7 @@
 class Strings {
   Strings._();
   ///common
-  static const appName = 'RunFast';
+  static const appName = '小马快跑';
   static const deleteString = '删除';
   static const saveString = '保存';
   ///guide
@@ -23,6 +23,11 @@ class Strings {
   static const reminderCreateNullToast = '请输入想要提醒的事项后再确认哦';
   static const remindResetString = '重新提醒';
   static const remindDetailEmptyContent = '已经到达预计的提醒时间了哦！\n赶快完成你的事情吧！';
+  static const remindGuideStepOne = '点击"+"添加提醒';
+  static const remindGuideStepTwo = '点击这里可以查看已完成的提醒';
+  static const remindGuideNext = '下一步';
+  static const remindGuideNextComplete = '结束引导';
+  static const remindGuideComplete = '关闭引导';
 
   ///goal
   static const goalTitle = '目标列表';
@@ -44,6 +49,12 @@ class Strings {
   static const diaryCreateContentPrompt = '记录一下详细内容吧：';
   static const diaryCreateContentHint = '我还想说...';
   static const diaryCreateImagePrompt = '选择想要的图片吧：';
+  static const diaryDetailTitle = '记录详情';
   ///settings
   static const settingsTitle = '个人设置';
+  static const settingsInfoTitle = '关于小马快跑';
+  static const settingsPrivacyTitle = '隐私政策与用户协议';
+  static const settingsHelpTitle = '使用说明';
+  static const settingsNotificationTitle = '提醒设置';
+
 }

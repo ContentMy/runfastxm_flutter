@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:runfastxm_flutter/presentation/widgets/goal_item.dart';
+import 'package:runfastxm_flutter/presentation/widgets/main_title_with_bg.dart';
 import '../../../domain/models/goal.dart';
 import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
@@ -34,7 +35,7 @@ class GoalPage extends StatelessWidget {
         final goals = viewModel.goals;
 
         return Scaffold(
-          appBar: AppBar(title: const Text(Strings.goalTitle)),
+          appBar: AppBar(title: const MainTitleWithBg(title:Strings.goalTitle)),
           body: goals.isEmpty
               ? const Center(
             child: Text(

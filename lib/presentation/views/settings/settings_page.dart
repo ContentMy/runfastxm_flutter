@@ -3,6 +3,9 @@ import 'package:runfastxm_flutter/presentation/views/settings/settings_about_pag
 import 'package:runfastxm_flutter/presentation/views/settings/settings_guide_page.dart';
 import 'package:runfastxm_flutter/presentation/views/settings/settings_privacy_page.dart';
 import 'package:runfastxm_flutter/presentation/views/settings/settings_reminder_page.dart';
+import 'package:runfastxm_flutter/resources/strings.dart';
+
+import '../../widgets/main_title_with_bg.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -10,28 +13,28 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<_SettingItem> items = [
-      _SettingItem(Icons.info, '关于小马快跑', onTap: () {
+      _SettingItem(Icons.info, Strings.settingsInfoTitle, onTap: () {
         // 跳转关于页面
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const SettingsAboutPage()),
         );
       }),
-      _SettingItem(Icons.privacy_tip, '隐私政策与用户协议', onTap: () {
+      _SettingItem(Icons.privacy_tip,Strings.settingsPrivacyTitle, onTap: () {
         // 跳转隐私页面
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const SettingsPrivacyPage()),
         );
       }),
-      _SettingItem(Icons.help_outline, '使用说明', onTap: () {
+      _SettingItem(Icons.help_outline, Strings.settingsHelpTitle, onTap: () {
         // 跳转使用说明
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const SettingsGuidePage()),
         );
       }),
-      _SettingItem(Icons.notifications_active, '提醒设置', onTap: () {
+      _SettingItem(Icons.notifications_active, Strings.settingsNotificationTitle, onTap: () {
         // 跳转提醒设置
         Navigator.push(
           context,
@@ -42,7 +45,7 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('个人设置'),
+        title: const MainTitleWithBg(title: Strings.settingsTitle,),
       ),
       body: Column(
         children: [
@@ -60,7 +63,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  '小马快跑',
+                  Strings.appName,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],

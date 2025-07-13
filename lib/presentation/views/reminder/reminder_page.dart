@@ -1,19 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:runfastxm_flutter/presentation/views/reminder/remind_guide_overlay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
+import '../../widgets/main_title_with_bg.dart';
 import 'reminder_completed_page.dart';
 import '../../../services/permission_service.dart';
 import '../../view_models/reminder_view_model.dart';
 import 'reminder_input_sheet.dart';
 import '../../widgets/reminder_item.dart';
 
-class ReminderPage extends StatelessWidget {
+class ReminderPage extends StatefulWidget {
   const ReminderPage({super.key});
 
+  @override
+  State<ReminderPage> createState() => _ReminderPageState();
+}
+
+class _ReminderPageState extends State<ReminderPage> {
+  final GlobalKey fabKey = GlobalKey();
+  final GlobalKey menuKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkGuide();
+  }
+
+  Future<void> _checkGuide() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasShownGuide = prefs.getBool('hasShownReminderGuide') ?? false;
+
+    if (!hasShownGuide) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (_, __, ___) => RemindGuideOverlay(
+              fabKey: fabKey,
+              menuKey: menuKey,
+              onClose: () {
+                // ✅ 设置为已展示
+                prefs.setBool('hasShownReminderGuide', true);
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        );
+      });
+    }
+  }
+
   void _showAddReminderSheet(BuildContext context) async {
-    // ✅ 请求通知权限（Android 13+）
     await PermissionService.requestNotificationPermission();
     await PermissionService.requestExactAlarmPermission();
     showModalBottomSheet(
@@ -22,25 +62,22 @@ class ReminderPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (_) => ReminderInputSheet(
         onSubmit: (text, duration) {
-          // ✅ 通过 ViewModel 添加提醒
           context.read<ReminderViewModel>().addReminder(text, duration);
         },
       ),
     );
-    // NotificationService.testQuickNotification();
-    // NotificationService.showImmediateNotification();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(Strings.reminderTitle),
+        title: const MainTitleWithBg(title: Strings.reminderTitle),
         actions: [
           IconButton(
+            key: menuKey,
             icon: Image.asset(Assets.reminderImgMenu, width: 24, height: 24),
             onPressed: () {
-              // TODO: 跳转到已完成页面
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -53,6 +90,7 @@ class ReminderPage extends StatelessWidget {
       ),
       body: const _ReminderBody(),
       floatingActionButton: FloatingActionButton(
+        key: fabKey,
         heroTag: null,
         backgroundColor: AppColors.commonGreen,
         shape: const CircleBorder(),
@@ -75,7 +113,10 @@ class _ReminderBody extends StatelessWidget {
             child: Text(
               Strings.reminderEmptyContent,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.commonGreen,fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: AppColors.commonGreen,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           )
         : ListView.builder(

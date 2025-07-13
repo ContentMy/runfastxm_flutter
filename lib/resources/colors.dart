@@ -6,6 +6,7 @@ class AppColors {
   // 通用颜色
   static const Color commonWhite = Colors.white;
   static const Color commonBlack = Colors.black;
+  static const Color commonTransparent = Color(0x00000000);
   static const Color commonBlackShadow = Color(0x42000000);
   static const Color commonGreen = Color(0xFF029F72);
   static const Color commonGreenDark = Color(0xFF072A24);
@@ -16,4 +17,5 @@ class AppColors {
   static const Color commonYellowBranch = Color(0xFFEBE5D9);
   static const Color commonGray = Color(0xFF8C8C8C);
   static const Color commonGrayLight = Color(0xFFEDEDED);
+
 }
