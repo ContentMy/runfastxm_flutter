@@ -54,4 +54,7 @@ class Assets {
   static const String diaryImgAdd = 'assets/images/diary/ui_add_img.png';
   ///setting
   static const String settingImgSmail = 'assets/images/';
+  static const String settingImgRemindSelfStart = 'assets/images/settings/ui_self_start.png';
+  ///guide
+  static const String guideImgTurnRight = 'assets/images/guide/ui_main_guide_turn_right.png';
 }

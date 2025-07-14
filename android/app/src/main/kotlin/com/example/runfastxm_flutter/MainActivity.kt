@@ -5,6 +5,10 @@ import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.net.Uri
+import android.os.Build
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "reminder_channel"
@@ -31,10 +35,38 @@ class MainActivity: FlutterActivity() {
                     ReminderScheduler.cancelReminder(this, id)
                     result.success(null)
                 }
+                "isNotificationEnabled" -> {
+                    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    val enabled =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            manager.areNotificationsEnabled()
+                        } else {
+                            true
+                        }
+                    result.success(enabled)
+                }
                 "openNotificationSettings" -> {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = android.net.Uri.fromParts("package", packageName, null)
+                    val intent = Intent()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                    } else {
+                        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        intent.data = Uri.fromParts("package", packageName, null)
+                    }
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
+                    result.success(null)
+                }
+                "isAutoStartEnabled" -> {
+                    // 简单返回 false，需要自己根据厂商做适配
+                    result.success(false)
+                }
+                "openAutoStartSettings" -> {
+                    val intent = AutoStartUtils.getAutoStartIntent(this)
+                    if (intent != null) {
+                        startActivity(intent)
+                    }
                     result.success(null)
                 }
                 else -> {

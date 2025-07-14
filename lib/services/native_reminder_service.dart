@@ -23,7 +23,19 @@ class NativeReminderService {
     });
   }
 
+  static Future<bool> isNotificationEnabled() async {
+    return await _channel.invokeMethod<bool>('isNotificationEnabled') ?? false;
+  }
+
   static Future<void> openNotificationSettings() async {
     await _channel.invokeMethod('openNotificationSettings');
+  }
+
+  static Future<bool> isAutoStartEnabled() async {
+    return await _channel.invokeMethod<bool>('isAutoStartEnabled') ?? false;
+  }
+
+  static Future<void> openAutoStartSettings() async {
+    await _channel.invokeMethod('openAutoStartSettings');
   }
 }

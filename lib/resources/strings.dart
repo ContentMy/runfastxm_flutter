@@ -56,5 +56,12 @@ class Strings {
   static const settingsPrivacyTitle = '隐私政策与用户协议';
   static const settingsHelpTitle = '使用说明';
   static const settingsNotificationTitle = '提醒设置';
+  static const settingsNotificationRemindContent = '开启通知权限';
+  static const settingsNotificationRemindTrue = '已开启';
+  static const settingsNotificationRemindFalse = '未开启';
+  static const settingsNotificationSelfStartContent = '允许应用自启动';
+  static const settingsNotificationSelfStartTrue = '已允许';
+  static const settingsNotificationSelfStartFalse = '未允许';
+
 
 }
