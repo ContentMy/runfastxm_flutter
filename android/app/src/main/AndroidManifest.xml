@@ -60,6 +60,11 @@
         <receiver
             android:exported="false"
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
+
+        <!--flutter的原生通知处理-->
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="true"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

@@ -1,4 +1,4 @@
-# 小马快跑 Beta1 - 日记功能使用说明
+# 小马快跑 Flutter - 日记功能使用说明
 
 #### 简介
 
@@ -12,11 +12,11 @@
 
 ###### 心情列表
 
-<img src="img/diary/心情列表.jpg" alt="心情列表" width="300"/>
+<img src="img/diary/心情列表.jpg" alt="心情列表" width="300"/><img src="img/diary/心情列表(图片).jpg" alt="心情列表(图片)" width="300"/>
 
 ###### 心情详情
 
-待完成
+<img src="img/diary/心情详情.jpg" alt="心情详情" width="300"/>
 
 ###### 删除心情（长按）
 

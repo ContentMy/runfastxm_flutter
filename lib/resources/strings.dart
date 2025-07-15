@@ -28,6 +28,9 @@ class Strings {
   static const remindGuideNext = '下一步';
   static const remindGuideNextComplete = '结束引导';
   static const remindGuideComplete = '关闭引导';
+  static const remindBannerGuideTitle = '优化提醒小Tips';
+  static const remindBannerGuideContent = '为了让提醒更加及时，点击立即优化吧!';
+  static const remindBannerGuideBtnString = '立即优化';
 
   ///goal
   static const goalTitle = '目标列表';
@@ -56,5 +59,12 @@ class Strings {
   static const settingsPrivacyTitle = '隐私政策与用户协议';
   static const settingsHelpTitle = '使用说明';
   static const settingsNotificationTitle = '提醒设置';
+  static const settingsNotificationRemindContent = '开启通知权限';
+  static const settingsNotificationRemindTrue = '已开启';
+  static const settingsNotificationRemindFalse = '未开启';
+  static const settingsNotificationSelfStartContent = '允许应用自启动';
+  static const settingsNotificationSelfStartTrue = '已允许';
+  static const settingsNotificationSelfStartFalse = '未允许';
+
 
 }

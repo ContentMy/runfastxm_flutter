@@ -1,10 +1,8 @@
-# 小马快跑 - Flutter版本 - Beta2
+# 小马快跑 - Flutter版本
 
 #### 简介
 
 小马快跑是一款拥有事项提醒、目标管理和生活记录的工具类App，后续可能还会迭代其他的功能。
-
-目前Flutter版本处于刚开始开发的阶段，后续功能追平小马快跑Kotlin版本时，会发布Release版本
 
 #### 兼容性问题声明
 目前此开源项目在小米、华为设备上测试过，其他设备受限于现实因素暂无法进行测试。如果有相关问题欢迎提issues
@@ -19,6 +17,10 @@ Kotlin版本：https://github.com/ContentMy/RunFastXM
 开发中：https://github.com/ContentMy/runfastxm_flutter/tree/dev
 
 #### 应用快照
+
+* 引导页面
+
+  <img src="instructions/img/guide/即时提醒.jpg" alt="即时提醒" width="300"/><img src="instructions/img/guide/制定目标.jpg" alt="制定目标" width="300"/><img src="instructions/img/guide/记录生活.jpg" alt="记录生活" width="300"/>
 
 * 事项提醒功能模块
 
@@ -56,6 +58,11 @@ Kotlin版本：https://github.com/ContentMy/RunFastXM
 * hive - 2.2.3
 * flutter_local_notifications - 19.3.0
 * permission_handler - 11.3.1
+* intl - 0.18.1
+* fluttertoast - 8.2.4
+* flutter_native_splash - 2.3.2
+* shared_preferences - 2.2.2
+* image_picker - 1.1.1
 
 
 
