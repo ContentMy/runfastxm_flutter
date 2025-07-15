@@ -52,6 +52,7 @@ class Assets {
   ///diary
   static const String diaryImgSmail = 'assets/images/diary/ui_emoji_smile.png';
   static const String diaryImgAdd = 'assets/images/diary/ui_add_img.png';
+  static const String diaryImgClose = 'assets/images/diary/ui_close.png';
   ///setting
   static const String settingImgSmail = 'assets/images/';
   static const String settingImgRemindSelfStart = 'assets/images/settings/ui_self_start.png';

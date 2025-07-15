@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:runfastxm_flutter/presentation/views/reminder/remind_guide_overlay.dart';
+import 'package:runfastxm_flutter/presentation/views/settings/settings_reminder_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
 import '../../widgets/main_title_with_bg.dart';
+import '../../widgets/remind_optimization_banner.dart';
 import 'reminder_completed_page.dart';
 import '../../../services/permission_service.dart';
 import '../../view_models/reminder_view_model.dart';
@@ -22,11 +24,42 @@ class ReminderPage extends StatefulWidget {
 class _ReminderPageState extends State<ReminderPage> {
   final GlobalKey fabKey = GlobalKey();
   final GlobalKey menuKey = GlobalKey();
+  bool showOptimizationBanner = true;
+
+  void _handleOptimizationJump() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasShownOptimizationBanner', true);
+
+    if (!mounted) return;//防止context警告，异步执行完可能会离开当前页面或者其他操作导致context无效
+
+    setState(() {
+      showOptimizationBanner = false;
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const SettingsReminderPage(),
+      ),
+    );
+  }
+
+
+  void _handleOptimizationClose() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasShownOptimizationBanner', true);
+
+    setState(() {
+      showOptimizationBanner = false;
+    });
+  }
+
 
   @override
   void initState() {
     super.initState();
     _checkGuide();
+    _loadOptimizationBanner();
   }
 
   Future<void> _checkGuide() async {
@@ -52,6 +85,16 @@ class _ReminderPageState extends State<ReminderPage> {
       });
     }
   }
+
+  Future<void> _loadOptimizationBanner() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasClosed = prefs.getBool('hasShownOptimizationBanner') ?? false;
+
+    setState(() {
+      showOptimizationBanner = !hasClosed;
+    });
+  }
+
 
   void _showAddReminderSheet(BuildContext context) async {
     await PermissionService.requestNotificationPermission();
@@ -88,7 +131,16 @@ class _ReminderPageState extends State<ReminderPage> {
           ),
         ],
       ),
-      body: const _ReminderBody(),
+      body: Column(
+        children: [
+          if (showOptimizationBanner)
+            ReminderOptimizationBanner(
+              onJump: _handleOptimizationJump,
+              onClose: _handleOptimizationClose,
+            ),
+          const Expanded(child: _ReminderBody()),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         key: fabKey,
         heroTag: null,

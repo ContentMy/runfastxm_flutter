@@ -28,6 +28,9 @@ class Strings {
   static const remindGuideNext = '下一步';
   static const remindGuideNextComplete = '结束引导';
   static const remindGuideComplete = '关闭引导';
+  static const remindBannerGuideTitle = '优化提醒小Tips';
+  static const remindBannerGuideContent = '为了让提醒更加及时，点击立即优化吧!';
+  static const remindBannerGuideBtnString = '立即优化';
 
   ///goal
   static const goalTitle = '目标列表';

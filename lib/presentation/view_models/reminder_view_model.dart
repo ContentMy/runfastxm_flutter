@@ -6,6 +6,8 @@ import '../../../services/notification_service.dart';
 
 import 'dart:async';
 
+import '../../services/native_reminder_service.dart';
+
 class ReminderViewModel extends ChangeNotifier {
   final ReminderRepository _repository;
   final List<Reminder> _reminders = [];
@@ -60,6 +62,8 @@ class ReminderViewModel extends ChangeNotifier {
   }
 
   Future<void> addReminder(String content, Duration duration) async {
+    // 调试时写死为 1 分钟
+    duration = const Duration(minutes: 1);
     final id = const Uuid().v4();
     final nowMillis = DateTime.now().millisecondsSinceEpoch;
     final durationMillis = duration.inMilliseconds;
@@ -88,6 +92,15 @@ class ReminderViewModel extends ChangeNotifier {
       body: content,
       scheduledTime: scheduledTime,
     );
+    //
+    // await NativeReminderService.scheduleReminder(
+    //   id: id,
+    //   title: "提醒事项原生",
+    //   content: content,
+    //   delayMillis: duration.inMilliseconds,
+    // );
+    //
+    // debugPrint("⏰ 已通过原生调度提醒");
   }
 
   Future<void> removeReminder(Reminder reminder) async {
